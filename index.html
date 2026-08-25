@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 میتسوری · منبع انیمه‌ها</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0b0710;
+      --bg-secondary: #150d1f;
+      --text-primary: #f0e0ff;
+      --text-secondary: #c9b5dd;
+      --accent: #b366ff;
+      --accent-glow: rgba(180, 0, 255, 0.3);
+      --card-bg: rgba(12, 8, 20, 0.88);
+      --border-color: rgba(200, 80, 255, 0.15);
+      --shadow-color: rgba(180, 0, 255, 0.15);
+      --gradient-1: #f0c8ff;
+      --gradient-2: #b366ff;
+      --heart-color: #ff44b0;
+      --btn-bg: rgba(200, 80, 255, 0.08);
+      --btn-border: rgba(200, 80, 255, 0.15);
+      --logo-filter: drop-shadow(0 0 12px rgba(180, 0, 255, 0.3));
+      --nav-bg: rgba(12, 8, 20, 0.85);
+      --modal-bg: rgba(0, 0, 0, 0.85);
+      --video-border: #b366ff;
+    }
+
+    /* تم دخترونه (صورتی-دارک) */
+    [data-theme="girl"] {
+      --bg-primary: #1a0d1a;
+      --bg-secondary: #221020;
+      --text-primary: #fce4f0;
+      --text-secondary: #e8c8d8;
+      --accent: #ff66b2;
+      --accent-glow: rgba(255, 0, 150, 0.3);
+      --card-bg: rgba(30, 12, 28, 0.88);
+      --border-color: rgba(255, 80, 180, 0.2);
+      --shadow-color: rgba(255, 0, 150, 0.15);
+      --gradient-1: #ffb3d9;
+      --gradient-2: #ff66b2;
+      --heart-color: #ff3399;
+      --btn-bg: rgba(255, 80, 180, 0.08);
+      --btn-border: rgba(255, 80, 180, 0.15);
+      --logo-filter: drop-shadow(0 0 12px rgba(255, 0, 150, 0.3));
+      --nav-bg: rgba(26, 13, 26, 0.85);
+      --modal-bg: rgba(26, 13, 26, 0.85);
+      --video-border: #ff66b2;
+    }
+
+    /* تم پسرونه (آبی-دارک) */
+    [data-theme="boy"] {
+      --bg-primary: #0a0f1a;
+      --bg-secondary: #0f1a2a;
+      --text-primary: #e0ecff;
+      --text-secondary: #b0c8e8;
+      --accent: #4da6ff;
+      --accent-glow: rgba(0, 100, 255, 0.3);
+      --card-bg: rgba(10, 18, 30, 0.88);
+      --border-color: rgba(50, 150, 255, 0.2);
+      --shadow-color: rgba(0, 100, 255, 0.15);
+      --gradient-1: #80c8ff;
+      --gradient-2: #4da6ff;
+      --heart-color: #3399ff;
+      --btn-bg: rgba(50, 150, 255, 0.08);
+      --btn-border: rgba(50, 150, 255, 0.15);
+      --logo-filter: drop-shadow(0 0 12px rgba(0, 100, 255, 0.3));
+      --nav-bg: rgba(10, 18, 30, 0.85);
+      --modal-bg: rgba(10, 18, 30, 0.85);
+      --video-border: #4da6ff;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-primary);
+      font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+      transition: all 0.4s ease;
+      color: var(--text-primary);
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(circle at 20% 30%, var(--accent-glow) 0%, transparent 35%),
+        radial-gradient(circle at 80% 70%, var(--accent-glow) 0%, transparent 40%);
+    }
+
+    /* ===== Theme Toggle ===== */
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 999;
+      display: flex;
+      gap: 0.5rem;
+      background: var(--nav-bg);
+      padding: 0.4rem 0.8rem;
+      border-radius: 60px;
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 0 30px var(--shadow-color);
+    }
+
+    .theme-toggle button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.3s;
+      opacity: 0.5;
+      color: var(--text-secondary);
+    }
+
+    .theme-toggle button.active {
+      opacity: 1;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      transform: scale(1.05);
+      color: var(--text-primary);
+    }
+
+    .theme-toggle button:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* ===== MAIN CARD ===== */
+    .main-card {
+      max-width: 880px;
+      width: 100%;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 3rem 1.5rem 3rem 1.5rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-color), 0 0 40px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .main-card::before {
+      content: "✦";
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      font-size: 8rem;
+      color: var(--border-color);
+      opacity: 0.15;
+      transform: rotate(-20deg);
+      pointer-events: none;
+    }
+
+    .main-card::after {
+      content: "✧";
+      position: absolute;
+      bottom: -20px;
+      right: -10px;
+      font-size: 10rem;
+      color: var(--border-color);
+      opacity: 0.1;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
+
+    /* ===== LOGO ===== */
+    .site-logo {
+      max-width: 160px;
+      width: 100%;
+      border-radius: 24px;
+      margin: 0 auto 0.8rem auto;
+      display: block;
+      box-shadow: 0 0 40px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      transition: all 0.4s ease;
+      filter: var(--logo-filter);
+    }
+
+    .site-logo:hover {
+      transform: scale(1.04) rotate(-2deg);
+      box-shadow: 0 0 60px var(--accent-glow);
+    }
+
+    /* ===== TITLE ===== */
+    .channel-name {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px var(--accent-glow);
+      display: inline-block;
+      filter: drop-shadow(0 0 18px var(--accent-glow));
+      transition: all 0.4s ease;
+    }
+
+    /* ===== GREETING ===== */
+    .greeting {
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0.2rem 0 0.6rem 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+      transition: all 0.4s ease;
+    }
+
+    .greeting i {
+      color: var(--heart-color);
+      filter: drop-shadow(0 0 12px var(--heart-color));
+    }
+
+    /* ===== GLOW LINE ===== */
+    .glow-line {
+      width: 80%;
+      height: 2px;
+      margin: 0.8rem auto 1.8rem auto;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--heart-color), transparent);
+      border-radius: 100%;
+      filter: drop-shadow(0 0 12px var(--accent));
+      opacity: 0.6;
+      transition: all 0.4s ease;
+    }
+
+    /* ===== SUB MESSAGE ===== */
+    .sub-message {
+      margin: 1.8rem 0 2rem 0;
+      font-size: 1.4rem;
+      line-height: 2.4rem;
+      color: var(--text-secondary);
+      background: rgba(25, 10, 40, 0.5);
+      padding: 1.4rem 1.8rem;
+      border-radius: 70px 20px 70px 20px;
+      border-left: 4px solid var(--accent);
+      border-right: 4px solid var(--heart-color);
+      backdrop-filter: blur(4px);
+      box-shadow: inset 0 0 40px var(--shadow-color), 0 8px 30px -10px #000;
+      transition: all 0.4s ease;
+    }
+
+    .sub-message i {
+      margin: 0 8px;
+      color: var(--heart-color);
+      filter: drop-shadow(0 0 8px var(--heart-color));
+    }
+
+    .exact-spot {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent-glow), var(--heart-color));
+      padding: 0.2rem 1.6rem;
+      border-radius: 80px;
+      color: var(--text-primary);
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 0 40px var(--shadow-color);
+      backdrop-filter: blur(2px);
+      transition: all 0.4s ease;
+    }
+
+    /* ===== LINK BOX ===== */
+    .link-box {
+      background: rgba(8, 3, 18, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 100px;
+      padding: 1rem 2.2rem;
+      margin: 2rem auto 1.2rem auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px -8px #000, 0 0 30px var(--shadow-color);
+      transition: all 0.4s ease;
+      width: auto;
+    }
+
+    .link-box:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px var(--accent-glow), 0 10px 40px -8px #000;
+      transform: scale(1.02);
+      background: rgba(20, 5, 35, 0.8);
+    }
+
+    .link-box i {
+      color: var(--heart-color);
+      font-size: 2rem;
+      filter: drop-shadow(0 0 14px var(--heart-color));
+    }
+
+    .channel-link {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1.5px;
+      border-bottom: 2px dotted var(--border-color);
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .channel-link:hover {
+      border-bottom: 2px solid var(--accent);
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+
+    .arrow-down {
+      display: inline-block;
+      font-size: 2rem;
+      color: var(--heart-color);
+      animation: bounce-arrow 2s infinite ease-in-out;
+      filter: drop-shadow(0 0 12px var(--heart-color));
+    }
+
+    @keyframes bounce-arrow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ===== SECTIONS ===== */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--text-primary);
+      transition: all 0.4s ease;
+    }
+
+    .section-title i {
+      color: var(--heart-color);
+      filter: drop-shadow(0 0 12px var(--heart-color));
+    }
+
+    /* ===== OWNER / CONTACT ===== */
+    .owner-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      background: rgba(10, 5, 20, 0.5);
+      padding: 1.2rem 1.8rem;
+      border-radius: 80px;
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border-color);
+      transition: all 0.4s ease;
+    }
+
+    .owner-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 30px var(--shadow-color);
+      transition: all 0.4s ease;
+    }
+
+    .owner-avatar:hover {
+      transform: scale(1.08);
+      border-color: var(--heart-color);
+      box-shadow: 0 0 50px var(--accent-glow);
+    }
+
+    .owner-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+
+    .owner-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+
+    .owner-username {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .owner-username:hover {
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+
+    .owner-badge {
+      font-size: 0.8rem;
+      background: var(--btn-bg);
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      color: var(--text-secondary);
+      border: 1px solid var(--btn-border);
+    }
+
+    /* ===== TEAM ===== */
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .team-member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(10, 5, 20, 0.3);
+      padding: 1rem 1.5rem;
+      border-radius: 60px;
+      border: 1px solid var(--border-color);
+      transition: all 0.4s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--shadow-color);
+    }
+
+    .team-avatar {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 20px var(--shadow-color);
+      transition: all 0.4s ease;
+    }
+
+    .team-avatar:hover {
+      transform: scale(1.05);
+      border-color: var(--heart-color);
+    }
+
+    .team-username {
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .team-badge {
+      font-size: 0.75rem;
+      background: var(--btn-bg);
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      color: var(--text-secondary);
+      border: 1px solid var(--btn-border);
+    }
+
+    /* ===== VIDEO / CLIPS ===== */
+    .video-wrapper {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      border: 2px solid var(--video-border);
+      box-shadow: 0 0 50px var(--shadow-color);
+      transition: all 0.4s ease;
+      margin: 0.5rem 0 1rem 0;
+    }
+
+    .video-wrapper:hover {
+      transform: scale(1.01);
+      border-color: var(--heart-color);
+      box-shadow: 0 0 70px var(--accent-glow);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      background: #000;
+      border-radius: 2rem;
+    }
+
+    /* ===== CREDIT ===== */
+    .credit-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0 0.5rem 0;
+      background: rgba(10, 5, 20, 0.3);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border-color);
+      transition: all 0.4s ease;
+    }
+
+    .credit-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--heart-color);
+      box-shadow: 0 0 20px var(--shadow-color);
+      transition: all 0.4s ease;
+    }
+
+    .credit-avatar:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+
+    .credit-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.1rem;
+    }
+
+    .credit-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .credit-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .credit-name:hover {
+      filter: drop-shadow(0 0 20px var(--accent));
+    }
+
+    .credit-badge {
+      font-size: 0.7rem;
+      background: var(--btn-bg);
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      color: var(--text-secondary);
+      border: 1px solid var(--btn-border);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 1.2rem;
+      transition: all 0.4s ease;
+    }
+
+    .footer-badges i {
+      color: var(--accent);
+    }
+
+    .footer-emoji {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.2rem;
+      opacity: 0.6;
+      transition: all 0.4s ease;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .float-anim {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 10px var(--accent-glow)); }
+      50% { filter: drop-shadow(0 0 30px var(--accent-glow)); }
+    }
+
+    .glow-pulse {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      body { padding: 1rem; }
+      .main-card { padding: 1.8rem 1.2rem; border-radius: 2rem 1rem 2rem 1rem; }
+      .channel-name { font-size: 2rem; }
+      .greeting { font-size: 1.6rem; }
+      .sub-message { font-size: 1.1rem; padding: 1rem; line-height: 2rem; }
+      .link-box { padding: 0.8rem 1.2rem; gap: 0.5rem; }
+      .channel-link { font-size: 1.3rem; }
+      .section-title { font-size: 1.4rem; }
+      .owner-box { flex-direction: column; align-items: center; gap: 0.8rem; padding: 1rem; }
+      .owner-info { align-items: center; }
+      .team-grid { gap: 1.2rem; }
+      .team-member { padding: 0.8rem 1rem; }
+      .theme-toggle { top: 0.5rem; left: 0.5rem; padding: 0.3rem 0.6rem; }
+      .theme-toggle button { font-size: 1.2rem; padding: 0.2rem 0.5rem; }
+      .credit-box { flex-direction: column; align-items: center; gap: 0.6rem; padding: 0.8rem 1rem; }
+      .credit-text { align-items: center; }
+    }
+
+    @media (max-width: 400px) {
+      .main-card { padding: 1.2rem 0.8rem; }
+      .channel-name { font-size: 1.6rem; }
+      .greeting { font-size: 1.3rem; }
+      .sub-message { font-size: 1rem; padding: 0.8rem; }
+      .link-box { padding: 0.6rem 1rem; }
+      .channel-link { font-size: 1.1rem; }
+      .site-logo { max-width: 120px; }
+      .owner-avatar { width: 55px; height: 55px; }
+      .team-avatar { width: 50px; height: 50px; }
+      .credit-avatar { width: 40px; height: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== THEME TOGGLE ===== -->
+<div class="theme-toggle">
+  <button id="themeGirl" class="active" title="تم دخترونه 🌸"><i class="fas fa-ribbon"></i></button>
+  <button id="themeBoy" title="تم پسرونه 🌊"><i class="fas fa-water"></i></button>
+</div>
+
+<!-- ===== MAIN CARD ===== -->
+<div class="main-card">
+
+  <!-- LOGO -->
+  <img src="https://cdn.imgurl.ir/uploads/k858247_4f7b6079-c552-40bb-a4fa-6b6af99fb4ac.jpg" alt="لوگو سایت" class="site-logo float-anim">
+
+  <!-- TITLE -->
+  <div style="text-align: center;">
+    <span class="channel-name glow-pulse">@Mitsury_Wagory</span>
+    <i class="fas fa-skull" style="color: var(--accent); font-size: 2rem; filter: drop-shadow(0 0 20px var(--accent-glow));"></i>
+  </div>
+
+  <!-- GREETING -->
+  <div class="greeting">
+    <span>سلام وانیلی</span>
+    <i class="fas fa-ribbon"></i>
+    <span style="font-size: 1.8rem;">🎀</span>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <!-- ABOUT / MAIN MESSAGE -->
+  <div class="sub-message">
+    <i class="fas fa-play-circle"></i>
+    دنبال کانالی می‌گردی که
+    <br style="display: none;" class="mobile-break">
+    از انیمه فعالیت کنه و همیشه فعال باشه؟☺️🎀
+    <br>
+    <span class="exact-spot" style="margin-top: 0.5rem; display: inline-block;">اینجا دقیقاً همون جاست</span>
+    <br>
+    بیا و عضو شو وانیلی ☺️🎀
+    <br>
+    <span style="display: inline-block; margin-top: 0.3rem;">
+      <i class="fas fa-arrow-down" style="color: var(--heart-color);"></i> لینک کانال <i class="fas fa-heart" style="color: var(--heart-color);"></i>
+    </span>
+  </div>
+
+  <!-- RUBIKA LINK -->
+  <div style="display: flex; justify-content: center;">
+    <div class="link-box">
+      <i class="fas fa-link"></i>
+      <a href="https://rubika.ir/Mitsury_Wagory" target="_blank" class="channel-link">@Mitsury_Wagory</a>
+      <i class="fas fa-chevron-right" style="color: var(--accent);"></i>
+      <span class="arrow-down">👇🏻</span>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin: 0.2rem 0 0.5rem 0;">
+    <span style="background: var(--btn-bg); padding: 0.3rem 1.6rem; border-radius: 60px; border: 1px solid var(--btn-border); color: var(--text-secondary);">
+      <i class="fas fa-rocket"></i> روبیکا · کانال
+    </span>
+  </div>
+
+  <!-- ===== CONTACT ===== -->
+  <div class="section-title">
+    <i class="fas fa-envelope"></i> ارتباط با ما
+  </div>
+  <div class="owner-box">
+    <img src="https://cdn.imgurl.ir/uploads/h02609_ChatGPT_Image_Aug_21_2026_09_43_07_AM.png" alt="مالک" class="owner-avatar">
+    <div class="owner-info">
+      <span class="owner-label"><i class="fas fa-crown" style="color: var(--heart-color);"></i> مالک کانال</span>
+      <a href="https://rubika.ir/@lm_Mitsury_chan" target="_blank" class="owner-username">@lm_Mitsury_chan</a>
+      <span class="owner-badge"><i class="fas fa-check-circle" style="color: var(--accent);"></i> مدیر</span>
+    </div>
+    <i class="fas fa-arrow-right" style="color: var(--accent); font-size: 1.4rem; opacity: 0.5;"></i>
+  </div>
+
+  <!-- ===== TEAM ===== -->
+  <div class="section-title">
+    <i class="fas fa-users"></i> تیم ما
+  </div>
+  <div class="team-grid">
+    <div class="team-member">
+      <img src="https://cdn.imgurl.ir/uploads/h02609_ChatGPT_Image_Aug_21_2026_09_43_07_AM.png" alt="مالک" class="team-avatar">
+      <a href="https://rubika.ir/@lm_Mitsury_chan" target="_blank" class="team-username">@lm_Mitsury_chan</a>
+      <span class="team-badge"><i class="fas fa-crown" style="color: var(--heart-color);"></i> مالک</span>
+    </div>
+    <div class="team-member">
+      <img src="https://cdn.imgurl.ir/uploads/v13504_4337e2f7-750c-411d-b3f8-a28e955ecadc.jpg" alt="ادمین" class="team-avatar">
+      <a href="https://rubika.ir/@Wagory_139213" target="_blank" class="team-username">@Wagory_139213</a>
+      <span class="team-badge"><i class="fas fa-shield-alt" style="color: var(--accent);"></i> ادمین</span>
+    </div>
+  </div>
+
+  <!-- ===== CLIPS / VIDEO ===== -->
+  <div class="section-title">
+    <i class="fas fa-video"></i> کلیپ‌ها
+  </div>
+  <div class="video-wrapper">
+    <video controls autoplay loop muted playsinline>
+      <source src="https://cdn.imgurl.ir/uploads/d651246_2091179072162500608.mp4" type="video/mp4">
+      مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
+    </video>
+  </div>
+
+  <!-- ===== CREDIT ===== -->
+  <div class="credit-box">
+    <img src="https://cdn.imgurl.ir/uploads/y88944_ChatGPT_Image_Aug_21_2026_09_45_51_AM.png" alt="پیشی خطر" class="credit-avatar">
+    <div class="credit-text">
+      <span class="credit-label"><i class="fas fa-code" style="color: var(--heart-color);"></i> ساخته شده توسط</span>
+      <a href="#" class="credit-name" id="creditLink">@Pishi_Khatar</a>
+      <span class="credit-badge"><i class="fas fa-star" style="color: var(--heart-color);"></i> توسعه‌دهنده</span>
+    </div>
+    <i class="fas fa-heart" style="color: var(--heart-color); font-size: 1.2rem; opacity: 0.6;"></i>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer-badges">
+    <span><i class="fas fa-star"></i> همیشه فعال</span>
+    <span><i class="fas fa-film"></i> انیمه</span>
+    <span><i class="fas fa-users"></i> کانال</span>
+    <span><i class="fas fa-moon"></i> دارک</span>
+  </div>
+
+  <div class="footer-emoji">
+    <span>🌸</span>
+    <span><i class="fas fa-ribbon" style="color: var(--accent);"></i> وانیلی <i class="fas fa-ribbon" style="color: var(--accent);"></i></span>
+    <span>🎀</span>
+    <span><i class="fas fa-heart" style="color: var(--heart-color);"></i></span>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    // ===== THEME TOGGLE =====
+    const girlBtn = document.getElementById('themeGirl');
+    const boyBtn = document.getElementById('themeBoy');
+    const html = document.documentElement;
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      girlBtn.classList.toggle('active', theme === 'girl');
+      boyBtn.classList.toggle('active', theme === 'boy');
+      localStorage.setItem('mitsury-theme', theme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('mitsury-theme') || 'girl';
+    setTheme(savedTheme);
+
+    girlBtn.addEventListener('click', () => setTheme('girl'));
+    boyBtn.addEventListener('click', () => setTheme('boy'));
+
+    // ===== CREDIT LINK =====
+    const creditLink = document.getElementById('creditLink');
+    if (creditLink) {
+      creditLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('🔥 ساخته شده توسط پیشی خطر @Pishi_Khatar\n⚡ توسعه‌دهنده حرفه‌ای');
+      });
+    }
+
+    // ===== VIDEO AUTOPLAY =====
+    const video = document.querySelector('.video-wrapper video');
+    if (video) {
+      video.play().catch(() => {});
+    }
+
+    console.log('🌸 میتسوری · منبع انیمه‌ها · دو تم خفن');
+  })();
+</script>
+
+</body>
+</html>
